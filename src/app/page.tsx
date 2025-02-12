@@ -227,7 +227,7 @@ const JobAnalyzer = () => {
                 <div>
                   <textarea
                     className="w-full h-48 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="İş İlanı"
+                    placeholder="İş ilanını buraya yapıştırınız.."
                     value={jobDescription}
                     onChange={(e) => setJobDescription(e.target.value)}
                   />
@@ -235,7 +235,7 @@ const JobAnalyzer = () => {
                 <div>
                   <textarea
                     className="w-full h-48 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="CV"
+                    placeholder="CV'yi buraya yapıştırınız"
                     value={cv}
                     onChange={(e) => setCv(e.target.value)}
                   />
