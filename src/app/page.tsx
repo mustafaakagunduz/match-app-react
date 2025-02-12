@@ -67,7 +67,7 @@ const JobAnalyzer = () => {
         İş İlanı: ${jobDescription}
         CV: ${cv}
 
-        Bu iş ilanı ve CV&apos;yi birlikte değerlendir. Bu iş için uygun bir aday mıyım?
+        Bu iş ilanı ve CV'yi birlikte değerlendir. Bu iş için uygun bir aday mıyım?
 
         Eğer uygunsam:
         1. İşe ne kadar uygun olduğumu açıkla
@@ -89,7 +89,7 @@ const JobAnalyzer = () => {
         İş İlanı: ${jobDescription}
         CV: ${cv}
 
-        Bu CV&apos;yi iş ilanı için değerlendir:
+        Bu CV'yi iş ilanı için değerlendir:
 
         Eğer aday uygunsa:
         1. Adayın pozisyona uyum yüzdesi nedir?
