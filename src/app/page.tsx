@@ -54,7 +54,7 @@ const JobAnalyzer = () => {
     setLoading(true);
     setError('');
     try {
-      const apiKey = api_key;
+      const apiKey = process.env.API_KEY;
 
       if (!apiKey) {
         throw new Error("API anahtarı bulunamadı");
