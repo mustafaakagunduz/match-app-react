@@ -149,6 +149,10 @@ const JobAnalyzer = () => {
               <p>
                 <span className="font-semibold">İşverenler için:</span> Aday CV'sini iş ilanınızla karşılaştırarak detaylı bir uyumluluk analizi alabilir, adayın güçlü ve geliştirilmesi gereken yönlerini görebilir ve gerektiğinde profesyonel bir ret mektubu oluşturabilirsiniz.
               </p>
+
+              <p>
+                <span className="font-semibold text-blue-600">Önemli Not:</span> Bu uygulama hiçbir kullanıcı verisini saklamamaktadır.
+              </p>
             </div>
           </CardContent>
         </Card>
