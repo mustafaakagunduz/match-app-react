@@ -151,7 +151,7 @@ const JobAnalyzer = () => {
               </p>
 
               <p>
-                <span className="font-semibold text-blue-600">Önemli Not:</span> Bu uygulama hiçbir kullanıcı verisini saklamamaktadır.
+                <span className="font-semibold text-blue-600">Önemli Not:</span> Bu uygulama hiçbir kullanıcı verisini saklamamaktadır. Sayfanın sağ üstündeki butondan güncel KVKK metnine erişebilirsiniz.
               </p>
             </div>
           </CardContent>
