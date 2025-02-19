@@ -11,26 +11,31 @@ import {
 } from '@/components/ui/dialog';
 
 const SupportButton = () => {
-    const [copiedName, setCopiedName] = useState(false);
-    const [copiedIBAN, setCopiedIBAN] = useState(false);
+    const [copiedStates, setCopiedStates] = useState({
+        name: false,
+        triban: false,
+        usdiban: false,
+        euiban: false,
+        swift: false
+    });
 
-    const handleCopy = async (text: string, type: 'name' | 'iban') => {
+    const handleCopy = async (text: string, type: 'name' | 'triban' | 'usdiban' | 'euiban' | 'swift') => {
         try {
             await navigator.clipboard.writeText(text);
-            if (type === 'name') {
-                setCopiedName(true);
-                setTimeout(() => setCopiedName(false), 2000);
-            } else {
-                setCopiedIBAN(true);
-                setTimeout(() => setCopiedIBAN(false), 2000);
-            }
+            setCopiedStates(prev => ({ ...prev, [type]: true }));
+            setTimeout(() => {
+                setCopiedStates(prev => ({ ...prev, [type]: false }));
+            }, 2000);
         } catch (err) {
             console.error('Kopyalama başarısız oldu:', err);
         }
     };
 
     const name = "Mustafa İhsan Akagündüz";
-    const iban = "TR71 0001 2001 5450 0001 1087 30";
+    const triban = "TR92 0001 2009 8900 0001 0489 73";
+    const usdiban = "TR49 0001 2009 8900 0023 0050 18";
+    const euiban = "TR20 0001 2009 8900 0035 0018 21";
+    const swiftCode = "TRHBTR2A";
 
     return (
         <div className="fixed top-4 right-4 z-50">
@@ -41,7 +46,7 @@ const SupportButton = () => {
                         Beni Destekle
                     </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-md">
+                <DialogContent className="sm:max-w-xl">
                     <DialogHeader>
                         <DialogTitle className="text-xl font-semibold text-blue-600 mb-4 text-center">
                             Projeye Destek Olun
@@ -50,7 +55,6 @@ const SupportButton = () => {
                     <div className="space-y-4">
                         <p className="text-gray-700 leading-relaxed text-justify">
                             Merhaba! Bu projeyi daha da ileriye taşımak ve size daha iyi bir deneyim sunmak için çalışıyoruz.
-
                         </p>
 
                         <p className="text-gray-700 leading-relaxed text-justify">
@@ -69,27 +73,90 @@ const SupportButton = () => {
                                     className="text-gray-500 hover:text-gray-700"
                                     onClick={() => handleCopy(name, 'name')}
                                 >
-                                    {copiedName ? (
+                                    {copiedStates.name ? (
                                         <Check className="w-4 h-4 text-green-500" />
                                     ) : (
                                         <Copy className="w-4 h-4" />
                                     )}
                                 </Button>
                             </div>
-                            <div className="flex items-center justify-between">
-                                <p className="font-mono text-gray-600">{iban}</p>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="text-gray-500 hover:text-gray-700"
-                                    onClick={() => handleCopy(iban, 'iban')}
-                                >
-                                    {copiedIBAN ? (
-                                        <Check className="w-4 h-4 text-green-500" />
-                                    ) : (
-                                        <Copy className="w-4 h-4" />
-                                    )}
-                                </Button>
+
+                            <div className="space-y-3">
+                                <div>
+                                    <p className="text-sm font-medium text-gray-500 mb-1">TL IBAN</p>
+                                    <div className="flex items-center justify-between">
+                                        <p className="font-mono text-gray-600">{triban}</p>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="text-gray-500 hover:text-gray-700"
+                                            onClick={() => handleCopy(triban, 'triban')}
+                                        >
+                                            {copiedStates.triban ? (
+                                                <Check className="w-4 h-4 text-green-500" />
+                                            ) : (
+                                                <Copy className="w-4 h-4" />
+                                            )}
+                                        </Button>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <p className="text-sm font-medium text-gray-500 mb-1">USD IBAN</p>
+                                    <div className="flex items-center justify-between">
+                                        <p className="font-mono text-gray-600">{usdiban}</p>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="text-gray-500 hover:text-gray-700"
+                                            onClick={() => handleCopy(usdiban, 'usdiban')}
+                                        >
+                                            {copiedStates.usdiban ? (
+                                                <Check className="w-4 h-4 text-green-500" />
+                                            ) : (
+                                                <Copy className="w-4 h-4" />
+                                            )}
+                                        </Button>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <p className="text-sm font-medium text-gray-500 mb-1">EUR IBAN</p>
+                                    <div className="flex items-center justify-between">
+                                        <p className="font-mono text-gray-600">{euiban}</p>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="text-gray-500 hover:text-gray-700"
+                                            onClick={() => handleCopy(euiban, 'euiban')}
+                                        >
+                                            {copiedStates.euiban ? (
+                                                <Check className="w-4 h-4 text-green-500" />
+                                            ) : (
+                                                <Copy className="w-4 h-4" />
+                                            )}
+                                        </Button>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <p className="text-sm font-medium text-gray-500 mb-1">Halkbank SWIFT Kodu</p>
+                                    <div className="flex items-center justify-between">
+                                        <p className="font-mono text-gray-600">{swiftCode}</p>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="text-gray-500 hover:text-gray-700"
+                                            onClick={() => handleCopy(swiftCode, 'swift')}
+                                        >
+                                            {copiedStates.swift ? (
+                                                <Check className="w-4 h-4 text-green-500" />
+                                            ) : (
+                                                <Copy className="w-4 h-4" />
+                                            )}
+                                        </Button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <p className="text-blue-600 font-medium text-center">
