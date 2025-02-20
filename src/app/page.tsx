@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { UserCircle, Building2, ArrowLeft, Copy } from 'lucide-react';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import OpenAI from 'openai';
 import { motion, AnimatePresence } from 'framer-motion';
 import LoadingGame from './LoadingGame';
 
@@ -16,6 +16,10 @@ const JobAnalyzer = () => {
   const [error, setError] = useState('');
   const [letter, setLetter] = useState('');
   const [copied, setCopied] = useState(false);
+  const openai = new OpenAI({
+    apiKey: 'sk-2_MTYPXSEFos7kT9mvlM_m4ELQaVBIkhml5vyjGYo-T3BlbkFJ05Ql3-lEpbj-lmsskhe6I-gI5j8rB7kLTmB1C4ckIA',
+    dangerouslyAllowBrowser: true
+  });
 
   const copyToClipboard = async (text: string) => {
     try {
@@ -54,15 +58,6 @@ const JobAnalyzer = () => {
     setLoading(true);
     setError('');
     try {
-      const apiKey = "AIzaSyD8ZjCNEQN9A6bf-83kQK_11qxEMX2Dykg";
-
-      if (!apiKey) {
-        throw new Error("API anahtarı bulunamadı");
-      }
-
-      const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-
       const candidatePrompt = `
         İş İlanı: ${jobDescription}
         CV: ${cv}
@@ -107,13 +102,17 @@ const JobAnalyzer = () => {
       `;
 
       const prompt = userType === 'candidate' ? candidatePrompt : employerPrompt;
-      const result = await model.generateContent(prompt);
-      const response = await result.response;
-      const cleanText = response.text().replace(/\*\*/g, '');
 
-      const letterText = extractLetter(cleanText);
+      const completion = await openai.chat.completions.create({
+        messages: [{ role: "user", content: prompt }],
+        model: "gpt-4o-mini",
+      });
+
+      const response = completion.choices[0]?.message?.content || '';
+      const letterText = extractLetter(response);
       setLetter(letterText);
-      setAnalysis(cleanText);
+      setAnalysis(response);
+
     } catch (error) {
       console.error('Error analyzing:', error);
       setError('Bir hata oluştu. Lütfen tekrar deneyin.');
