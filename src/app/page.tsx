@@ -131,7 +131,7 @@ const JobAnalyzer = () => {
         className="w-full max-w-6xl mx-auto px-4 py-8"
       >
         <h1 className="text-3xl font-bold text-center text-blue-600 mb-8">
-          İş Başvurusu Analizi
+          Üzgünüz, fakat...
         </h1>
 
         {/* Açıklama Kartı */}
