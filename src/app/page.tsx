@@ -7,8 +7,10 @@ import OpenAI from 'openai';
 import { motion, AnimatePresence } from 'framer-motion';
 import LoadingGame from './LoadingGame';
 
+type UserType = 'candidate' | 'employer' | null;
+
 const JobAnalyzer = () => {
-  const [userType, setUserType] = useState<'candidate' | 'employer' | null>(null);
+  const [userType, setUserType] = useState<UserType>(null);
   const [jobDescription, setJobDescription] = useState('');
   const [cv, setCv] = useState('');
   const [loading, setLoading] = useState(false);
@@ -16,12 +18,13 @@ const JobAnalyzer = () => {
   const [error, setError] = useState('');
   const [letter, setLetter] = useState('');
   const [copied, setCopied] = useState(false);
+
   const openai = new OpenAI({
     apiKey: 'sk-2_MTYPXSEFos7kT9mvlM_m4ELQaVBIkhml5vyjGYo-T3BlbkFJ05Ql3-lEpbj-lmsskhe6I-gI5j8rB7kLTmB1C4ckIA',
     dangerouslyAllowBrowser: true
   });
 
-  const copyToClipboard = async (text: string) => {
+  const copyToClipboard = async (text : string) => {
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
@@ -31,7 +34,7 @@ const JobAnalyzer = () => {
     }
   };
 
-  const handleUserTypeChange = (type: 'candidate' | 'employer' | null) => {
+  const handleUserTypeChange = (type: UserType) => {
     resetForm();
     setUserType(type);
   };
@@ -44,7 +47,7 @@ const JobAnalyzer = () => {
     setLetter('');
   };
 
-  const extractLetter = (text: string) => {
+  const extractLetter = (text : string) => {
     let letterContent = '';
     if (text.includes('Niyet Mektubu:')) {
       letterContent = text.split('Niyet Mektubu:')[1].split(/\n\n|\nDeğerlendirme/)[0].trim();
@@ -122,196 +125,191 @@ const JobAnalyzer = () => {
   };
 
   const renderUserTypeSelection = () => (
-    <div className="min-h-screen bg-blue-50 flex items-center justify-center">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-6xl mx-auto px-4 py-8"
-      >
-        <h1 className="text-3xl font-bold text-center text-blue-600 mb-8">
-          Üzgünüz, fakat...
-        </h1>
-
-        {/* Açıklama Kartı */}
-        <Card className="mb-8">
-          <CardContent className="p-6">
-            <h2 className="text-xl font-semibold text-blue-600 mb-4">Sistem Nasıl Çalışır?</h2>
-            <div className="text-gray-600 space-y-3">
-              <p>
-                Bu sistem, iş başvuru süreçlerini hem adaylar hem de işverenler için kolaylaştırmak üzere tasarlanmış bir yapay zeka destekli analiz aracıdır.
-              </p>
-              <p>
-                <span className="font-semibold">Adaylar için:</span> İş ilanı ve CV'nizi sisteme yükleyerek, pozisyona ne kadar uygun olduğunuzu öğrenebilir, kişiselleştirilmiş bir niyet mektubu alabilir ve geliştirmeniz gereken yönler hakkında öneriler alabilirsiniz.
-              </p>
-              <p>
-                <span className="font-semibold">İşverenler için:</span> Aday CV'sini iş ilanınızla karşılaştırarak detaylı bir uyumluluk analizi alabilir, adayın güçlü ve geliştirilmesi gereken yönlerini görebilir ve gerektiğinde profesyonel bir ret mektubu oluşturabilirsiniz.
-              </p>
-
-              <p>
-                <span className="font-semibold text-blue-600">Önemli Not:</span> Bu uygulama hiçbir kullanıcı verisini saklamamaktadır. Sayfanın sağ üstündeki butondan güncel KVKK metnine erişebilirsiniz.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <div className="grid md:grid-cols-2 gap-6">
-          <motion.div
-            whileHover={{ scale: 1.02 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <Card
-              className="cursor-pointer hover:shadow-lg transition-shadow"
-              onClick={() => handleUserTypeChange('candidate')}
-            >
-              <CardContent className="p-6 flex flex-col items-center">
-                <UserCircle className="w-16 h-16 text-blue-600 mb-4" />
-                <h2 className="text-2xl font-semibold mb-2">Aday</h2>
-                <p className="text-gray-600 text-center">
-                  İş başvurunuzu analiz edin ve uygunluğunuzu değerlendirin
-                </p>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          <motion.div
-            whileHover={{ scale: 1.02 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <Card
-              className="cursor-pointer hover:shadow-lg transition-shadow"
-              onClick={() => handleUserTypeChange('employer')}
-            >
-              <CardContent className="p-6 flex flex-col items-center">
-                <Building2 className="w-16 h-16 text-blue-600 mb-4" />
-                <h2 className="text-2xl font-semibold mb-2">İşveren</h2>
-                <p className="text-gray-600 text-center">
-                  Aday CV'sini değerlendirin ve uygunluk analizi alın
-                </p>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </div>
-      </motion.div>
-    </div>
-  );
-
-  const renderAnalysisForm = () => (
-    <div className="min-h-screen bg-blue-50 flex items-center justify-center py-8">
-      <AnimatePresence mode="wait">
+      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-blue-900 flex items-center justify-center">
         <motion.div
-          key="form-content"
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -100 }}
-          transition={{ duration: 0.3 }}
-          className="w-full max-w-6xl mx-auto px-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+            className="w-full max-w-6xl mx-auto px-4 py-8"
         >
-          <div className="bg-white rounded-lg shadow-md p-6 relative">
-            <Button
-              variant="default"
-              onClick={() => handleUserTypeChange(null)}
-              className="absolute left-6 top-6 bg-blue-600 hover:bg-blue-700"
+          <h1 className="text-4xl font-bold text-center text-white mb-8">
+            Üzgünüz, fakat..
+          </h1>
+
+          <Card className="mb-8 bg-white/10 backdrop-blur-lg border-0">
+            <CardContent className="p-8">
+              <h2 className="text-2xl font-semibold text-white mb-6">Sistem Nasıl Çalışır?</h2>
+              <div className="text-gray-200 space-y-4">
+                <p>
+                  Bu sistem, iş başvuru süreçlerini hem adaylar hem de işverenler için kolaylaştırmak üzere tasarlanmış bir yapay zeka destekli analiz aracıdır.
+                </p>
+                <p>
+                  <span className="font-semibold text-blue-300">Adaylar için:</span> İş ilanı ve CV'nizi sisteme yükleyerek, pozisyona ne kadar uygun olduğunuzu öğrenebilir, kişiselleştirilmiş bir niyet mektubu alabilir ve geliştirmeniz gereken yönler hakkında öneriler alabilirsiniz.
+                </p>
+                <p>
+                  <span className="font-semibold text-blue-300">İşverenler için:</span> Aday CV'sini iş ilanınızla karşılaştırarak detaylı bir uyumluluk analizi alabilir, adayın güçlü ve geliştirilmesi gereken yönlerini görebilir ve gerektiğinde profesyonel bir ret mektubu oluşturabilirsiniz.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <motion.div
+                whileHover={{ scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 300 }}
             >
-              <ArrowLeft className="w-5 h-5 text-white" />
-            </Button>
+              <Card
+                  className="cursor-pointer bg-white/5 backdrop-blur-sm border-0 hover:bg-white/10 transition-all"
+                  onClick={() => handleUserTypeChange('candidate')}
+              >
+                <CardContent className="p-8 flex flex-col items-center">
+                  <UserCircle className="w-16 h-16 text-blue-400 mb-4" />
+                  <h2 className="text-2xl font-semibold mb-2 text-white">Aday</h2>
+                  <p className="text-gray-300 text-center">
+                    İş başvurunuzu analiz edin ve uygunluğunuzu değerlendirin
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
 
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
+                whileHover={{ scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 300 }}
             >
-              <h1 className="text-3xl font-bold text-blue-600 text-center mb-6">
-                {userType === 'candidate' ? 'Aday Değerlendirmesi' : 'İşveren Değerlendirmesi'}
-              </h1>
-
-              <div className="grid md:grid-cols-2 gap-6 mb-6">
-                <div>
-                  <textarea
-                    className="w-full h-48 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="İş ilanını buraya yapıştırınız.."
-                    value={jobDescription}
-                    onChange={(e) => setJobDescription(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <textarea
-                    className="w-full h-48 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="CV'yi buraya yapıştırınız"
-                    value={cv}
-                    onChange={(e) => setCv(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="text-center mb-6">
-                <Button
-                  disabled={loading || !jobDescription || !cv}
-                  onClick={analyzeJob}
-                  className="px-8 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-                >
-                  {loading ? 'Analiz Ediliyor...' : 'Analiz Et'}
-                </Button>
-              </div>
-
-              {error && (
-                <div className="text-red-600 text-center mb-6">
-                  {error}
-                </div>
-              )}
-
-              {loading && <LoadingGame />}
-
-              {analysis && !loading && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="space-y-6"
-                >
-                  <Card>
-                    <CardContent className="p-6">
-                      <h2 className="text-xl font-semibold text-blue-600 mb-4">
-                        Analiz Sonucu
-                      </h2>
-                      <div className="whitespace-pre-line text-gray-700 leading-relaxed">
-                        {analysis.replace(letter, '')}
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  {letter && (
-                    <Card className="relative">
-                      <CardContent className="p-6">
-                        <div className="flex flex-col gap-4">
-                          <div className="flex justify-between items-center">
-                            <h2 className="text-xl font-semibold text-blue-600">
-                              {userType === 'candidate' ? 'Niyet Mektubu' : 'Ret Mektubu'}
-                            </h2>
-                            <Button
-                              onClick={() => copyToClipboard(letter)}
-                              variant="default"
-                              className="bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2 px-4 py-2"
-                            >
-                              <Copy className="w-5 h-5" />
-                              <span>{copied ? 'Kopyalandı!' : 'Mektubu Kopyala'}</span>
-                            </Button>
-                          </div>
-                          <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-100 whitespace-pre-line text-gray-700 leading-relaxed">
-                            {letter}
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  )}
-                </motion.div>
-              )}
+              <Card
+                  className="cursor-pointer bg-white/5 backdrop-blur-sm border-0 hover:bg-white/10 transition-all"
+                  onClick={() => handleUserTypeChange('employer')}
+              >
+                <CardContent className="p-8 flex flex-col items-center">
+                  <Building2 className="w-16 h-16 text-blue-400 mb-4" />
+                  <h2 className="text-2xl font-semibold mb-2 text-white">İşveren</h2>
+                  <p className="text-gray-300 text-center">
+                    Aday CV'sini değerlendirin ve uygunluk analizi alın
+                  </p>
+                </CardContent>
+              </Card>
             </motion.div>
           </div>
         </motion.div>
-      </AnimatePresence>
-    </div>
+      </div>
+  );
+
+  const renderAnalysisForm = () => (
+      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-blue-900 flex items-center justify-center py-8">
+        <AnimatePresence mode="wait">
+          <motion.div
+              key="form-content"
+              initial={{ opacity: 0, x: 100 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -100 }}
+              transition={{ duration: 0.3 }}
+              className="w-full max-w-6xl mx-auto px-4"
+          >
+            <div className="bg-white/10 backdrop-blur-lg rounded-lg shadow-2xl p-8 relative">
+              <Button
+                  variant="ghost"
+                  onClick={() => handleUserTypeChange(null)}
+                  className="absolute left-6 top-6 text-white hover:bg-white/10"
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </Button>
+
+              <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+              >
+                <h1 className="text-3xl font-bold text-white text-center mb-8">
+                  {userType === 'candidate' ? 'Aday Değerlendirmesi' : 'İşveren Değerlendirmesi'}
+                </h1>
+
+                <div className="grid md:grid-cols-2 gap-6 mb-8">
+                  <div>
+                  <textarea
+                      className="w-full h-48 p-4 bg-white/5 border-0 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:bg-white/10"
+                      placeholder="İş ilanını buraya yapıştırınız.."
+                      value={jobDescription}
+                      onChange={(e) => setJobDescription(e.target.value)}
+                  />
+                  </div>
+                  <div>
+                  <textarea
+                      className="w-full h-48 p-4 bg-white/5 border-0 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:bg-white/10"
+                      placeholder="CV'yi buraya yapıştırınız"
+                      value={cv}
+                      onChange={(e) => setCv(e.target.value)}
+                  />
+                  </div>
+                </div>
+
+                <div className="text-center mb-8">
+                  <Button
+                      disabled={loading || !jobDescription || !cv}
+                      onClick={analyzeJob}
+                      className="px-8 py-3 bg-white  text-blue-700 rounded-lg hover:bg-blue-700 hover:text-white disabled:bg-blue-800 disabled:opacity-50"
+                  >
+                    {loading ? 'Analiz Ediliyor...' : 'Analiz Et'}
+                  </Button>
+                </div>
+
+                {error && (
+                    <div className="text-red-400 text-center mb-6">
+                      {error}
+                    </div>
+                )}
+
+                {loading && <LoadingGame />}
+
+                {analysis && !loading && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="space-y-6"
+                    >
+                      <Card className="bg-gray-800/90 backdrop-blur-sm border-0">
+                        <CardContent className="p-6">
+                          <h2 className="text-xl font-semibold text-white mb-4">
+                            Analiz Sonucu
+                          </h2>
+                          <div className="text-white/90 leading-relaxed whitespace-pre-line">
+                            {analysis.replace(letter, '')}
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      {letter && (
+                          <Card className="bg-gray-800/90 backdrop-blur-sm border-0">
+                            <CardContent className="p-6">
+                              <div className="flex flex-col gap-4">
+                                <div className="flex justify-between items-center">
+                                  <h2 className="text-xl font-semibold text-white">
+                                    {userType === 'candidate' ? 'Niyet Mektubu' : 'Ret Mektubu'}
+                                  </h2>
+                                  <Button
+                                      onClick={() => copyToClipboard(letter)}
+                                      variant="ghost"
+                                      className="text-white hover:bg-white/10 flex items-center gap-2"
+                                  >
+                                    <Copy className="w-5 h-5" />
+                                    <span>{copied ? 'Kopyalandı!' : 'Mektubu Kopyala'}</span>
+                                  </Button>
+                                </div>
+                                <div className="mt-4 p-6 bg-gray-900/50 rounded-lg text-white/90 leading-relaxed whitespace-pre-line">
+                                  {letter}
+                                </div>
+                              </div>
+                            </CardContent>
+                          </Card>
+                      )}
+                    </motion.div>
+                )}
+              </motion.div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
   );
 
   return userType ? renderAnalysisForm() : renderUserTypeSelection();
