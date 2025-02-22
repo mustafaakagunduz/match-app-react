@@ -281,7 +281,6 @@ const JobAnalyzer = () => {
                         </CardContent>
                       </Card>
 
-
                     </motion.div>
                 )}
               </motion.div>
