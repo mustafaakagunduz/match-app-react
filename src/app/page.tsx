@@ -281,30 +281,7 @@ const JobAnalyzer = () => {
                         </CardContent>
                       </Card>
 
-                      {letter && (
-                          <Card className="bg-gray-800/90 backdrop-blur-sm border-0">
-                            <CardContent className="p-6">
-                              <div className="flex flex-col gap-4">
-                                <div className="flex justify-between items-center">
-                                  <h2 className="text-xl font-semibold text-white">
-                                    {userType === 'candidate' ? 'Niyet Mektubu' : 'Ret Mektubu'}
-                                  </h2>
-                                  <Button
-                                      onClick={() => copyToClipboard(letter)}
-                                      variant="ghost"
-                                      className="text-white hover:bg-white/10 flex items-center gap-2"
-                                  >
-                                    <Copy className="w-5 h-5" />
-                                    <span>{copied ? 'Kopyalandı!' : 'Mektubu Kopyala'}</span>
-                                  </Button>
-                                </div>
-                                <div className="mt-4 p-6 bg-gray-900/50 rounded-lg text-white/90 leading-relaxed whitespace-pre-line">
-                                  {letter}
-                                </div>
-                              </div>
-                            </CardContent>
-                          </Card>
-                      )}
+
                     </motion.div>
                 )}
               </motion.div>
