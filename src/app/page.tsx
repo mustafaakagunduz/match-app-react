@@ -133,8 +133,10 @@ const JobAnalyzer = () => {
             transition={{ duration: 0.5 }}
             className="w-full max-w-6xl mx-auto px-4 py-8"
         >
+
           <h1 className="text-4xl font-bold text-center text-white mb-8">
             Üzgünüz, fakat..
+
           </h1>
 
           <Card className="mb-8 bg-white/10 backdrop-blur-lg border-0">
@@ -142,7 +144,7 @@ const JobAnalyzer = () => {
               <h2 className="text-2xl font-semibold text-white mb-6">Sistem Nasıl Çalışır?</h2>
               <div className="text-gray-200 space-y-4">
                 <p>
-                  Bu sistem, iş başvuru süreçlerini hem adaylar hem de işverenler için kolaylaştırmak üzere tasarlanmış bir yapay zeka destekli analiz aracıdır.
+                  Bu sistem, iş başvuru süreçlerini hem adaylar ve işverenler için kolaylaştırmak üzere tasarlanmış bir yapay zeka destekli analiz aracıdır.
                 </p>
                 <p>
                   <span className="font-semibold text-blue-300">Adaylar için:</span> İş ilanı ve CV'nizi sisteme yükleyerek, pozisyona ne kadar uygun olduğunuzu öğrenebilir, kişiselleştirilmiş bir niyet mektubu alabilir ve geliştirmeniz gereken yönler hakkında öneriler alabilirsiniz.
