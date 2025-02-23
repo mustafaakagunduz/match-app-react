@@ -20,9 +20,10 @@ const JobAnalyzer = () => {
   const [copied, setCopied] = useState(false);
 
   const openai = new OpenAI({
-    apiKey: 'sk-2_MTYPXSEFos7kT9mvlM_m4ELQaVBIkhml5vyjGYo-T3BlbkFJ05Ql3-lEpbj-lmsskhe6I-gI5j8rB7kLTmB1C4ckIA',
+    apiKey: process.env.NEXT_PUBLIC_MATCH,
     dangerouslyAllowBrowser: true
   });
+
 
   const copyToClipboard = async (text : string) => {
     try {
