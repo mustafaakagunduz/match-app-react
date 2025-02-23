@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { UserCircle, Building2, ArrowLeft, Copy } from 'lucide-react';
-import OpenAI from 'openai';
 import { motion, AnimatePresence } from 'framer-motion';
 import LoadingGame from './LoadingGame';
 
@@ -19,10 +18,6 @@ const JobAnalyzer = () => {
   const [letter, setLetter] = useState('');
   const [copied, setCopied] = useState(false);
 
-  const openai = new OpenAI({
-    apiKey: process.env.NEXT_PUBLIC_MATCH,
-    dangerouslyAllowBrowser: true
-  });
 
 
   const copyToClipboard = async (text : string) => {
@@ -62,60 +57,27 @@ const JobAnalyzer = () => {
     setLoading(true);
     setError('');
     try {
-      const candidatePrompt = `
-        İş İlanı: ${jobDescription}
-        CV: ${cv}
-
-        Bu iş ilanı ve CV'yi birlikte değerlendir. Bu iş için uygun bir aday mıyım?
-
-        Eğer uygunsam:
-        1. İşe ne kadar uygun olduğumu açıkla
-        2. Bu şirkete göndermek için bir niyet mektubu yaz
-
-        Eğer uygun değilsem:
-        1. Hangi becerileri edinmem gerekiyor?
-        2. Bu becerileri nasıl edinebilirim?
-
-        Önemli notlar:
-        - Gerçekçi bir değerlendirme yap
-        - Yanıtını düz metin olarak ver, markdown formatı (*,** gibi) kullanma
-        - Başlıkları : ile ayır, örnek "İşe Uygunluk: ..."
-        - Maddeler varsa - ile listele
-        - Niyet Mektubunu ayrı bir başlık altında yaz: "Niyet Mektubu: ..."
-      `;
-
-      const employerPrompt = `
-        İş İlanı: ${jobDescription}
-        CV: ${cv}
-
-        Bu CV'yi iş ilanı için değerlendir:
-
-        Eğer aday uygunsa:
-        1. Adayın pozisyona uyum yüzdesi nedir?
-        2. Hangi becerileri eksik veya geliştirilmesi gerekiyor?
-
-        Eğer uygun değilse:
-        1. Kişiselleştirilmiş bir ret mektubu yaz
-
-        Önemli notlar:
-        - Gerçekçi bir değerlendirme yap
-        - Yanıtını düz metin olarak ver, markdown formatı (*,** gibi) kullanma
-        - Başlıkları : ile ayır, örnek "Uygunluk Değerlendirmesi: ..."
-        - Maddeler varsa - ile listele
-        - Ret mektubunu ayrı bir başlık altında yaz: "Kişiselleştirilmiş Ret Mektubu: ..."
-      `;
-
-      const prompt = userType === 'candidate' ? candidatePrompt : employerPrompt;
-
-      const completion = await openai.chat.completions.create({
-        messages: [{ role: "user", content: prompt }],
-        model: "gpt-4o-mini",
+      const response = await fetch('/api/analyze', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userType,
+          jobDescription,
+          cv,
+        }),
       });
 
-      const response = completion.choices[0]?.message?.content || '';
-      const letterText = extractLetter(response);
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error(data.error);
+      }
+
+      const letterText = extractLetter(data.content);
       setLetter(letterText);
-      setAnalysis(response);
+      setAnalysis(data.content);
 
     } catch (error) {
       console.error('Error analyzing:', error);
