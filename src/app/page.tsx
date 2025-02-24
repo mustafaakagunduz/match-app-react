@@ -17,7 +17,7 @@ const JobAnalyzer = () => {
   const [error, setError] = useState('');
   const [letter, setLetter] = useState('');
   const [copied, setCopied] = useState(false);
-//deneme
+    //denemedenemedeneme
 
 
   const copyToClipboard = async (text : string) => {
