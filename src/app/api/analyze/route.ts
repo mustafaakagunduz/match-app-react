@@ -1,4 +1,4 @@
-// src/app/api/analyze/route.ts
+// src/app/api/analyze/route.ts server
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
