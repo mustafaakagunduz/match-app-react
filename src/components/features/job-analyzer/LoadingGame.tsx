@@ -1,8 +1,10 @@
 "use client"
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Card } from '../components/ui/card';
+import { Card } from '../../ui/card';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const LoadingGame = () => {
+    const { t } = useLanguage();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const requestRef = useRef<number | null>(null);
     const previousTimeRef = useRef<number | null>(null);
@@ -161,14 +163,14 @@ const LoadingGame = () => {
         <Card className="w-full max-w-2xl mx-auto mt-8 p-6 bg-white">
             <div className="text-center mb-4">
                 <h3 className="text-xl font-semibold text-blue-600">
-                    Analiz devam ederken biraz ping pong oynayın!
+                    {t('loading.game.title')}
                 </h3>
                 <div className="flex justify-center items-center gap-8 mt-2">
                     <div className="text-blue-600">
-                        <span className="font-semibold">Siz:</span> {playerScore}
+                        <span className="font-semibold">{t('loading.game.you')}</span> {playerScore}
                     </div>
                     <div className="text-red-600">
-                        <span className="font-semibold">Rakip:</span> {computerScore}
+                        <span className="font-semibold">{t('loading.game.opponent')}</span> {computerScore}
                     </div>
                 </div>
             </div>
@@ -182,7 +184,7 @@ const LoadingGame = () => {
             />
 
             <p className="text-center text-sm text-gray-500 mt-4">
-                Fareyi yukarı/aşağı hareket ettirerek oynayın
+                {t('loading.game.instruction')}
             </p>
         </Card>
     );
