@@ -37,10 +37,10 @@ const UserTypeSelection = ({ onUserTypeChange }: UserTypeSelectionProps) => {
                                 {t('system.description')}
                             </p>
                             <p>
-                                <span className="font-semibold text-blue-700 dark:text-blue-300">{t('candidate.title')}lar için:</span> {t('candidate.info')}
+                                <span className="font-semibold text-blue-700 dark:text-blue-300">{t('candidate.title')} : </span> {t('candidate.info')}
                             </p>
                             <p>
-                                <span className="font-semibold text-blue-700 dark:text-blue-300">{t('employer.title')}ler için:</span> {t('employer.info')}
+                                <span className="font-semibold text-blue-700 dark:text-blue-300">{t('employer.title')} : </span> {t('employer.info')}
                             </p>
                         </div>
                     </CardContent>
