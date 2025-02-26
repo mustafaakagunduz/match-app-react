@@ -8,6 +8,7 @@ import { extractLetter } from '@/utils/helpers';
 import { useLanguage } from '@/contexts/LanguageContext';
 import LoadingGame from './LoadingGame';
 import AnalysisResult from './AnalysisResult';
+import FileUploadArea from './FileUploadArea';
 
 interface AnalysisFormProps {
     userType: UserType;
@@ -17,11 +18,22 @@ interface AnalysisFormProps {
 const AnalysisForm = ({ userType, onBack }: AnalysisFormProps) => {
     const [jobDescription, setJobDescription] = useState('');
     const [cv, setCv] = useState('');
+    const [cvFileName, setCvFileName] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [analysis, setAnalysis] = useState('');
     const [error, setError] = useState('');
     const [letter, setLetter] = useState('');
     const { t, language } = useLanguage();
+
+    const handleFileUpload = (content: string) => {
+        setCv(content);
+        setCvFileName('cv.pdf');
+    };
+
+    const clearFile = () => {
+        setCv('');
+        setCvFileName(null);
+    };
 
     const analyzeJob = async () => {
         setLoading(true);
@@ -36,7 +48,7 @@ const AnalysisForm = ({ userType, onBack }: AnalysisFormProps) => {
                     userType,
                     jobDescription,
                     cv,
-                    language, // Dil bilgisini API'ye gönderiyoruz
+                    language,
                 }),
             });
 
@@ -91,21 +103,33 @@ const AnalysisForm = ({ userType, onBack }: AnalysisFormProps) => {
                             </h1>
 
                             <div className="grid md:grid-cols-2 gap-6 mb-8">
+                                {/* İş İlanı Girişi */}
                                 <div>
-                  <textarea
-                      className="w-full h-48 p-4 bg-white/50 border-0 rounded-lg text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-blue-400 focus:bg-white/80 dark:bg-white/5 dark:text-white dark:placeholder-gray-400 dark:focus:bg-white/10"
-                      placeholder={t('form.jobDescription.placeholder')}
-                      value={jobDescription}
-                      onChange={(e) => setJobDescription(e.target.value)}
-                  />
+                                    <div className="mb-2">
+                                        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                            {t('form.jobDescription.placeholder')}
+                                        </h3>
+                                    </div>
+                                    <textarea
+                                        className="w-full h-48 p-4 bg-white/50 border-0 rounded-lg text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-blue-400 focus:bg-white/80 dark:bg-white/5 dark:text-white dark:placeholder-gray-400 dark:focus:bg-white/10"
+                                        placeholder={t('form.jobDescription.placeholder')}
+                                        value={jobDescription}
+                                        onChange={(e) => setJobDescription(e.target.value)}
+                                    />
                                 </div>
+
+                                {/* CV Girişi (Sadece Dosya Yükleme) */}
                                 <div>
-                  <textarea
-                      className="w-full h-48 p-4 bg-white/50 border-0 rounded-lg text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-blue-400 focus:bg-white/80 dark:bg-white/5 dark:text-white dark:placeholder-gray-400 dark:focus:bg-white/10"
-                      placeholder={t('form.cv.placeholder')}
-                      value={cv}
-                      onChange={(e) => setCv(e.target.value)}
-                  />
+                                    <div className="mb-2">
+                                        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                            {language === 'tr' ? 'CV PDF Dosyanızı Yükleyin' : 'Upload Your CV PDF File'}
+                                        </h3>
+                                    </div>
+                                    <FileUploadArea
+                                        onPdfContent={handleFileUpload}
+                                        clearFile={clearFile}
+                                        currentFileName={cvFileName}
+                                    />
                                 </div>
                             </div>
 

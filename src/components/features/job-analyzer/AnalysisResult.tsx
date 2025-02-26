@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Copy, Check } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { copyToClipboard } from '@/utils/helpers';
+
 import { useLanguage } from '@/contexts/LanguageContext';
 
 interface AnalysisResultProps {
@@ -16,13 +16,7 @@ const AnalysisResult = ({ analysis, letter }: AnalysisResultProps) => {
     const [copied, setCopied] = useState(false);
     const { t } = useLanguage();
 
-    const handleCopy = async (text: string) => {
-        const success = await copyToClipboard(text);
-        if (success) {
-            setCopied(true);
-            setTimeout(() => setCopied(false), 2000);
-        }
-    };
+
 
     return (
         <motion.div
@@ -42,38 +36,7 @@ const AnalysisResult = ({ analysis, letter }: AnalysisResultProps) => {
                 </CardContent>
             </Card>
 
-            {letter && (
-                <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-md dark:bg-gray-800/90 dark:shadow-xl">
-                    <CardContent className="p-6">
-                        <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
-                                {t('analysis.letter.title')}
-                            </h2>
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                className="text-blue-600 hover:text-blue-700 hover:bg-blue-50/50 dark:text-blue-400 dark:hover:text-blue-300 dark:hover:bg-blue-900/20"
-                                onClick={() => handleCopy(letter)}
-                            >
-                                {copied ? (
-                                    <>
-                                        <Check className="w-4 h-4 mr-2" />
-                                        {t('copied.button')}
-                                    </>
-                                ) : (
-                                    <>
-                                        <Copy className="w-4 h-4 mr-2" />
-                                        {t('copy.button')}
-                                    </>
-                                )}
-                            </Button>
-                        </div>
-                        <div className="text-gray-700 leading-relaxed whitespace-pre-line dark:text-white/90">
-                            {letter}
-                        </div>
-                    </CardContent>
-                </Card>
-            )}
+
         </motion.div>
     );
 };

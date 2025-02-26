@@ -4,12 +4,12 @@ import tr from '@/locales/tr';
 import en from '@/locales/en';
 
 type Language = 'tr' | 'en';
-type Translations = typeof tr;
+export type TranslationKey = keyof typeof tr | keyof typeof en;
 
 interface LanguageContextType {
     language: Language;
     setLanguage: (lang: Language) => void;
-    t: (key: keyof Translations) => string;
+    t: (key: TranslationKey) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -38,7 +38,7 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
 
     // Çeviri fonksiyonu
     const t = useCallback(
-        (key: keyof Translations) => {
+        (key: TranslationKey) => {
             return translations[language][key] || key;
         },
         [language]
