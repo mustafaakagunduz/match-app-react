@@ -59,7 +59,7 @@ const AnalysisForm = ({ userType, onBack }: AnalysisFormProps) => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-gray-900 to-blue-900 flex items-center justify-center py-8">
+        <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-900 dark:to-blue-900 flex items-center justify-center py-8">
             <AnimatePresence mode="wait">
                 <motion.div
                     key="form-content"
@@ -69,11 +69,11 @@ const AnalysisForm = ({ userType, onBack }: AnalysisFormProps) => {
                     transition={{ duration: 0.3 }}
                     className="w-full max-w-6xl mx-auto px-4"
                 >
-                    <div className="bg-white/10 backdrop-blur-lg rounded-lg shadow-2xl p-8 relative">
+                    <div className="bg-white/70 backdrop-blur-lg rounded-lg shadow-lg p-8 dark:bg-white/10 dark:shadow-2xl relative">
                         <Button
                             variant="ghost"
                             onClick={onBack}
-                            className="absolute left-6 top-6 text-white hover:bg-white/10"
+                            className="absolute left-6 top-6 text-gray-700 hover:bg-gray-100/50 dark:text-white dark:hover:bg-white/10"
                         >
                             <ArrowLeft className="w-5 h-5" />
                         </Button>
@@ -83,7 +83,7 @@ const AnalysisForm = ({ userType, onBack }: AnalysisFormProps) => {
                             animate={{ opacity: 1 }}
                             transition={{ duration: 0.3 }}
                         >
-                            <h1 className="text-3xl font-bold text-white text-center mb-8">
+                            <h1 className="text-3xl font-bold text-gray-800 dark:text-white text-center mb-8">
                                 {userType === 'candidate'
                                     ? t('candidate.analysis.title')
                                     : t('employer.analysis.title')
@@ -93,7 +93,7 @@ const AnalysisForm = ({ userType, onBack }: AnalysisFormProps) => {
                             <div className="grid md:grid-cols-2 gap-6 mb-8">
                                 <div>
                   <textarea
-                      className="w-full h-48 p-4 bg-white/5 border-0 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:bg-white/10"
+                      className="w-full h-48 p-4 bg-white/50 border-0 rounded-lg text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-blue-400 focus:bg-white/80 dark:bg-white/5 dark:text-white dark:placeholder-gray-400 dark:focus:bg-white/10"
                       placeholder={t('form.jobDescription.placeholder')}
                       value={jobDescription}
                       onChange={(e) => setJobDescription(e.target.value)}
@@ -101,7 +101,7 @@ const AnalysisForm = ({ userType, onBack }: AnalysisFormProps) => {
                                 </div>
                                 <div>
                   <textarea
-                      className="w-full h-48 p-4 bg-white/5 border-0 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400 focus:bg-white/10"
+                      className="w-full h-48 p-4 bg-white/50 border-0 rounded-lg text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-blue-400 focus:bg-white/80 dark:bg-white/5 dark:text-white dark:placeholder-gray-400 dark:focus:bg-white/10"
                       placeholder={t('form.cv.placeholder')}
                       value={cv}
                       onChange={(e) => setCv(e.target.value)}
@@ -113,14 +113,14 @@ const AnalysisForm = ({ userType, onBack }: AnalysisFormProps) => {
                                 <Button
                                     disabled={loading || !jobDescription || !cv}
                                     onClick={analyzeJob}
-                                    className="px-8 py-3 bg-white text-blue-700 rounded-lg hover:bg-blue-700 hover:text-white disabled:bg-blue-800 disabled:opacity-50"
+                                    className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-300 disabled:opacity-50 dark:bg-blue-700 dark:hover:bg-blue-600 dark:disabled:bg-blue-800 dark:disabled:opacity-50"
                                 >
                                     {loading ? t('form.analyzing.button') : t('form.analyze.button')}
                                 </Button>
                             </div>
 
                             {error && (
-                                <div className="text-red-400 text-center mb-6">
+                                <div className="text-red-600 dark:text-red-400 text-center mb-6">
                                     {error}
                                 </div>
                             )}

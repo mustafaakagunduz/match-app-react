@@ -31,28 +31,28 @@ const AnalysisResult = ({ analysis, letter }: AnalysisResultProps) => {
             transition={{ duration: 0.3 }}
             className="space-y-6"
         >
-            <Card className="bg-gray-800/90 backdrop-blur-sm border-0">
+            <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-md dark:bg-gray-800/90 dark:shadow-xl">
                 <CardContent className="p-6">
-                    <h2 className="text-xl font-semibold text-white mb-4">
+                    <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
                         {t('analysis.result.title')}
                     </h2>
-                    <div className="text-white/90 leading-relaxed whitespace-pre-line">
+                    <div className="text-gray-700 leading-relaxed whitespace-pre-line dark:text-white/90">
                         {analysis.replace(letter, '')}
                     </div>
                 </CardContent>
             </Card>
 
             {letter && (
-                <Card className="bg-gray-800/90 backdrop-blur-sm border-0">
+                <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-md dark:bg-gray-800/90 dark:shadow-xl">
                     <CardContent className="p-6">
                         <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-xl font-semibold text-white">
+                            <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
                                 {t('analysis.letter.title')}
                             </h2>
                             <Button
                                 variant="ghost"
                                 size="sm"
-                                className="text-blue-400 hover:text-blue-300 hover:bg-blue-900/20"
+                                className="text-blue-600 hover:text-blue-700 hover:bg-blue-50/50 dark:text-blue-400 dark:hover:text-blue-300 dark:hover:bg-blue-900/20"
                                 onClick={() => handleCopy(letter)}
                             >
                                 {copied ? (
@@ -68,7 +68,7 @@ const AnalysisResult = ({ analysis, letter }: AnalysisResultProps) => {
                                 )}
                             </Button>
                         </div>
-                        <div className="text-white/90 leading-relaxed whitespace-pre-line">
+                        <div className="text-gray-700 leading-relaxed whitespace-pre-line dark:text-white/90">
                             {letter}
                         </div>
                     </CardContent>

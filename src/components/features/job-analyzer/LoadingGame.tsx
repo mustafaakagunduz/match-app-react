@@ -2,9 +2,11 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Card } from '../../ui/card';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const LoadingGame = () => {
     const { t } = useLanguage();
+    const { theme } = useTheme();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const requestRef = useRef<number | null>(null);
     const previousTimeRef = useRef<number | null>(null);
@@ -24,8 +26,8 @@ const LoadingGame = () => {
         // Clear canvas
         ctx.clearRect(0, 0, 600, 400);
 
-        // Draw background
-        ctx.fillStyle = '#EFF6FF';
+        // Draw background - tema bağlı olarak değişir
+        ctx.fillStyle = theme === 'dark' ? '#1E293B' : '#F3F4F6';
         ctx.fillRect(0, 0, 600, 400);
 
         // Draw paddles
@@ -36,7 +38,7 @@ const LoadingGame = () => {
         ctx.fillRect(570, computerYRef.current, PADDLE_WIDTH, PADDLE_HEIGHT);
 
         // Draw ball
-        ctx.fillStyle = '#1F2937';
+        ctx.fillStyle = theme === 'dark' ? '#E2E8F0' : '#1F2937';
         ctx.beginPath();
         ctx.arc(ballRef.current.pos.x, ballRef.current.pos.y, BALL_RADIUS, 0, Math.PI * 2);
         ctx.fill();
@@ -55,11 +57,11 @@ const LoadingGame = () => {
         ctx.beginPath();
         ctx.moveTo(300, 0);
         ctx.lineTo(300, 400);
-        ctx.strokeStyle = '#94A3B8';
+        ctx.strokeStyle = theme === 'dark' ? '#64748B' : '#94A3B8';
         ctx.stroke();
-    }, [playerScore, computerScore]);
+    }, [playerScore, computerScore, theme]);
 
-    const updateGame = useCallback(() => {  // Removed unused deltaTime parameter
+    const updateGame = useCallback(() => {
         // Calculate next position
         const nextX = ballRef.current.pos.x + ballRef.current.dir.x;
         const nextY = ballRef.current.pos.y + ballRef.current.dir.y;
@@ -137,7 +139,7 @@ const LoadingGame = () => {
     const animate = useCallback((time: number) => {
         if (previousTimeRef.current !== undefined) {
             if (previousTimeRef.current !== null) {
-                updateGame();  // Removed deltaTime parameter
+                updateGame();
             }
         }
         previousTimeRef.current = time;
@@ -153,6 +155,12 @@ const LoadingGame = () => {
         };
     }, [animate]);
 
+    // Tema değiştiğinde canvas'ı yeniden çiz
+    useEffect(() => {
+        const ctx = canvasRef.current?.getContext('2d');
+        if (ctx) drawGame(ctx);
+    }, [theme, drawGame]);
+
     const handleMouseMove = useCallback((e: React.MouseEvent) => {
         const rect = e.currentTarget.getBoundingClientRect();
         const y = e.clientY - rect.top;
@@ -160,16 +168,16 @@ const LoadingGame = () => {
     }, []);
 
     return (
-        <Card className="w-full max-w-2xl mx-auto mt-8 p-6 bg-white">
+        <Card className="w-full max-w-2xl mx-auto mt-8 p-6 bg-white shadow-md dark:bg-gray-800 dark:shadow-xl">
             <div className="text-center mb-4">
-                <h3 className="text-xl font-semibold text-blue-600">
+                <h3 className="text-xl font-semibold text-blue-600 dark:text-blue-400">
                     {t('loading.game.title')}
                 </h3>
                 <div className="flex justify-center items-center gap-8 mt-2">
-                    <div className="text-blue-600">
+                    <div className="text-blue-600 dark:text-blue-400">
                         <span className="font-semibold">{t('loading.game.you')}</span> {playerScore}
                     </div>
-                    <div className="text-red-600">
+                    <div className="text-red-600 dark:text-red-400">
                         <span className="font-semibold">{t('loading.game.opponent')}</span> {computerScore}
                     </div>
                 </div>
@@ -179,11 +187,12 @@ const LoadingGame = () => {
                 ref={canvasRef}
                 width={600}
                 height={400}
-                className="mx-auto cursor-none bg-blue-50"
+                className="mx-auto cursor-none shadow-sm dark:shadow-md"
+                style={{ backgroundColor: theme === 'dark' ? '#1E293B' : '#F3F4F6' }}
                 onMouseMove={handleMouseMove}
             />
 
-            <p className="text-center text-sm text-gray-500 mt-4">
+            <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-4">
                 {t('loading.game.instruction')}
             </p>
         </Card>
