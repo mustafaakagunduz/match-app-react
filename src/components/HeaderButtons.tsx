@@ -19,6 +19,8 @@ const HeaderButtons = () => {
         swift: false
     });
 
+    //deneme
+
     const handleCopy = async (text: string, type: 'name' | 'triban' | 'usdiban' | 'euiban' | 'swift') => {
         try {
             await navigator.clipboard.writeText(text);
