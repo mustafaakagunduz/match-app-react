@@ -19,7 +19,7 @@ const HeaderButtons = () => {
         swift: false
     });
 
-    //deneme deneme deneme
+    //deneme deneme deneme deneme
 
     const handleCopy = async (text: string, type: 'name' | 'triban' | 'usdiban' | 'euiban' | 'swift') => {
         try {
