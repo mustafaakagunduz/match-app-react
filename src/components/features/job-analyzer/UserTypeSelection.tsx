@@ -12,7 +12,7 @@ interface UserTypeSelectionProps {
 const UserTypeSelection = ({ onUserTypeChange }: UserTypeSelectionProps) => {
     const { t } = useLanguage();
 
-    // Predefine styles to avoid FOUC (Flash of Unstyled Content)
+    // Predefine styles to avoid FOUC (Flash of Unstyled Content)..
     const cardStyles = "cursor-pointer backdrop-blur-sm border-0 shadow-md transition-colors duration-300";
     const lightModeStyles = "bg-white/70 hover:bg-white/90";
     const darkModeStyles = "dark:bg-white/5 dark:hover:bg-white/10 dark:shadow-xl";
